@@ -3,16 +3,19 @@ import axios from "axios";
 import TimeandLocation from "./TimeandLocation";
 import TemperatureandDetail from "./TemperatureandDetail";
 import Timing from "./Timing";
+import Map from "./Map";
 
-const Forecast = ({ cityName }) => { // ✅ Props se cityName le rahe hain
+
+const Forecast = ({ cityName }) => {
   const [forecastData, setForecastData] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [selectedDay, setSelectedDay] = useState(null);
   const [dateTime, setDateTime] = useState("");
+  const [selectedHour, setSelectedHour] = useState(new Date().getHours());
 
   const fetchForecast = async (searchCity) => {
-    if (!searchCity) return; // ✅ Agar city empty hai, toh kuch mat karo
+    if (!searchCity) return;
 
     try {
       setLoading(true);
@@ -31,19 +34,24 @@ const Forecast = ({ cityName }) => { // ✅ Props se cityName le rahe hain
     }
   };
 
-  // ✅ Whenever cityName changes, fetch new data
   useEffect(() => {
     fetchForecast(cityName);
-  }, [cityName]); // ✅ Dependency added
+  }, [cityName]);
+
+  // ✅ Dynamic Night Mode Background Based on Selected Hour
+  const isNightTime = selectedHour >= 18 || selectedHour < 6;
+  const backgroundClass = isNightTime ? "bg-black text-white" : "bg-blue-500 text-black";
 
   if (loading) return <p className="text-white">Loading...</p>;
   if (error) return <p className="text-red-500">{error}</p>;
 
   return (
-    <>
+    <div className={`transition-all duration-500 ${backgroundClass}`}>
       <TimeandLocation dateTime={dateTime} />
-      <TemperatureandDetail currentForecast={selectedDay} />
-      <Timing currentForecast={selectedDay} />
+      <TemperatureandDetail currentForecast={selectedDay} selectedHour={selectedHour} />
+
+      {/* Pass Hour Change Handler */}
+      <Timing currentForecast={selectedDay} onHourChange={setSelectedHour} />
 
       <div className="flex overflow-x-auto py-4 space-x-4 mx-4">
         {forecastData?.map((day, index) => (
@@ -71,7 +79,9 @@ const Forecast = ({ cityName }) => { // ✅ Props se cityName le rahe hain
           </div>
         ))}
       </div>
-    </>
+
+      <Map selectedDay={selectedDay} />
+    </div>
   );
 };
 

@@ -1,51 +1,41 @@
 import React, { useState } from "react";
 
-const TemperatureandDetail = ({ currentForecast }) => {
+const TemperatureandDetail = ({ currentForecast, selectedHour }) => {
   const [isCelsius, setIsCelsius] = useState(true);
-  if (!currentForecast) return null;
 
-  const tempC = currentForecast.day.avgtemp_c;
+  // Get hourly forecast for the selected hour
+  const hourlyData = currentForecast?.hour?.[selectedHour] || {};
+
+  const tempC = hourlyData.temp_c || 22; // Default value if no data
   const tempF = (tempC * 9) / 5 + 32;
-  const maxTempC = currentForecast.day.maxtemp_c;
-  const maxTempF = (maxTempC * 9) / 5 + 32;
-  const minTempC = currentForecast.day.mintemp_c;
-  const minTempF = (minTempC * 9) / 5 + 32;
 
   return (
     <div className="flex items-center text-white py-2 space-x-6">
-      <img
-        src={`https:${currentForecast.day.condition.icon}`}
-        className="h-28 w-28"
-        alt="weather icon"
+      {/* Weather Icon */}
+      <img src={hourlyData.condition?.icon ? `https:${hourlyData.condition.icon}` : "https://cdn.weatherapi.com/weather/64x64/day/116.png"} 
+           className="h-20 w-20" 
+           alt="weather icon" 
       />
 
+      {/* Temperature */}
       <div className="text-center">
         <p className="text-5xl">{isCelsius ? tempC : tempF}°</p>
       </div>
 
+      {/* Temperature Toggle */}
       <div className="flex flex-col items-center text-lg ml-2">
-        <button
-          onClick={() => setIsCelsius(true)}
-          className={`font-light ${isCelsius ? "border-b border-white" : ""}`}
-        >
+        <button onClick={() => setIsCelsius(true)} className={`font-light ${isCelsius ? "border-b border-white" : ""}`}>
           °C
         </button>
-        <button
-          onClick={() => setIsCelsius(false)}
-          className={`font-light ${!isCelsius ? "border-b border-white" : ""}`}
-        >
+        <button onClick={() => setIsCelsius(false)} className={`font-light ${!isCelsius ? "border-b border-white" : ""}`}>
           °F
         </button>
       </div>
 
-      <div className="text-left text-lg ml-3">
-        <p>{isCelsius ? maxTempC : maxTempF}°</p>
-        <p>{isCelsius ? minTempC : minTempF}°</p>
-      </div>
-
-      <div className="flex flex-col items-start text-lg ml-4">
-        <p>Humidity: {currentForecast.day.avghumidity}%</p>
-        <p>Wind: {currentForecast.day.maxwind_kph} KMPH</p>
+      {/* Weather Details */}
+      <div className="flex flex-col text-lg ml-3">
+        <p>Humidity: {hourlyData.humidity || 49}%</p>
+        <p>Wind: {hourlyData.wind_kph || 10.8} KMPH</p>
       </div>
     </div>
   );

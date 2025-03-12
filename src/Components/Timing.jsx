@@ -1,27 +1,36 @@
 import React from "react";
 
-const Timing = ({currentForecast}) => {
+const Timing = ({ currentForecast, onHourChange }) => {
+  if (!currentForecast) return null;
 
-  console.log("currentforecast",currentForecast)
-  
-  if(!currentForecast)
-  {
-    return <p>loading...</p>
-  }
+  // Function to handle slider movement
+  const handleSliderChange = (event) => {
+    onHourChange(Number(event.target.value));
+  };
 
   return (
-    <>
-      <div className="flex flex-row  space-x-16 text-white text-sm py-3 p-3 overflow-x-scroll max-w-[100vw]">
-        {
-          currentForecast.hour.map((el)=>(
-            <p>{el.time.split(" ")[1]}</p>
-          ))
-        }
+    <div className="relative w-full px-4">
+      <div className="flex items-center justify-between text-white py-2">
+        {currentForecast.hour?.map((hourData, index) => {
+          const hour = new Date(hourData.time).getHours();
+          return (
+            <div key={index} className="flex flex-col items-center">
+              <p className="text-xs">{hour}:00</p>
+            </div>
+          );
+        })}
       </div>
-      <div className="text-white">
-      <hr />
-      </div>
-    </>
+
+      {/* ✅ Slider UI */}
+      <input
+        type="range"
+        min="0"
+        max="23"
+        step="1"
+        className="w-full h-2 bg-gray-300 rounded-full appearance-none cursor-pointer"
+        onChange={handleSliderChange}
+      />
+    </div>
   );
 };
 
