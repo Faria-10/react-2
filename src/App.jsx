@@ -16,9 +16,6 @@ const App = () => {
         <Weather cityName={city} />
         <Test cityName={city} />  
         <Map/>
-    
-    
-    
       </div>
     </>
   );

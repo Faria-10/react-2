@@ -5,7 +5,7 @@ const Weather = ({ cityName }) => {
     <>
       <div className="items-center justify-center pl-7 my-9">
         <p className="text-white text-3xl font-medium">
-          {cityName ? cityName : "Islamabad, Pakistan"}  
+          {cityName ? cityName : "London, United States"}  
          
         </p>
         <p className="text-white mr-auto"> Updated a few minutes ago </p>

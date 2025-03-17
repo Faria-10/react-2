@@ -29,10 +29,15 @@ const Map = ({ selectedDay }) => {
 
   return (
     <div className="bg-blue-50 p-4 rounded-lg shadow-md">
-      <ResponsiveContainer width="100%" height={180}>
+      {/* For using responsive chart */}
+      <ResponsiveContainer width="100%" height={180}> 
+        {/* Temperature dikhany ky liy */}
         <AreaChart data={data} margin={{ top: 10, right: 20, left: 0, bottom: 0 }}>
+        {/* time lable ky liy */}
           <XAxis dataKey="time" tick={{ fill: "black", fontSize: 12 }} axisLine={false} />
-          <Tooltip content={<CustomTooltip />} />
+           {/* rain wagyra show krny ky liy */}
+           <Tooltip content={<CustomTooltip />} />
+            {/* temperature ko ak smooth ar shaded graph my dikhny ky liy */}
           <Area type="monotone" dataKey="temp" stroke="#EAB308" fill="#FEF3C7" strokeWidth={2} />
         </AreaChart>
       </ResponsiveContainer>

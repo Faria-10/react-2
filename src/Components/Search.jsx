@@ -6,7 +6,7 @@ const Search = ({ onSearch }) => {
   const handleSearch = (e) => {
     e.preventDefault();
     if (city.trim() !== "") {
-      onSearch(city); // Jo city enter hogi, wo parent component (App.js) ko pass ho jayegi
+      onSearch(city); 
     }
   };
 
