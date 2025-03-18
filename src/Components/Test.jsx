@@ -22,6 +22,7 @@ const Forecast = ({ cityName }) => {
       const response = await axios.get(
         `https://api.weatherapi.com/v1/forecast.json?key=03cfc1ab890144399d962425251003&q=${searchCity}&days=7&aqi=no`
       );
+      
 
       setForecastData(response.data.forecast.forecastday);
       setSelectedDay(response.data.forecast.forecastday[0]);
