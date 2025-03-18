@@ -1,9 +1,9 @@
 import React, { useState, lazy, Suspense } from "react";
-import Search from "./components/Search";
-import Weather from "./components/weather";
+import Search from "./Components/Search";
+import Weather from "./Components/weather";
 
 // Lazy loading components to resolve build issue-> unable to load heavy files
-const Test = lazy(() => import("./components/Test"));
+const Test = lazy(() => import("./Components/Test"));
 const Map = lazy(() => import("./Components/Map"));
 
 const App = () => {
