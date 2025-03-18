@@ -20,7 +20,7 @@ const Forecast = ({ cityName }) => {
     try {
       setLoading(true);
       const response = await axios.get(
-        `http://api.weatherapi.com/v1/forecast.json?key=03cfc1ab890144399d962425251003&q=${searchCity}&days=7&aqi=no`
+        `https://api.weatherapi.com/v1/forecast.json?key=03cfc1ab890144399d962425251003&q=${searchCity}&days=7&aqi=no`
       );
 
       setForecastData(response.data.forecast.forecastday);
